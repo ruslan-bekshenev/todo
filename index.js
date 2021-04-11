@@ -39,7 +39,7 @@ class Todo {
   todoNode(item) {
     return `
       <li class="item">
-        <input type="checkbox" id="${this.idName}_${item.id}" ${item.isChecked && 'checked="checked"'}"/>
+        <input type="checkbox" id="${this.idName}_${item.id}" ${item.isChecked ? 'checked="checked"' : ''} />
         <label for="${this.idName}_${item.id}">
           ${item.value}
         </label>
@@ -50,9 +50,12 @@ class Todo {
     this.todo.forEach((item) => {
       list.innerHTML += this.todoNode(item)
     })
+    this.todo.forEach((item) => {
+      document.getElementById(`${this.idName}_${item.id}`).addEventListener('change', () =>this.itemCheckedChange(item.id))
+    })
+
   }
   itemCheckedChange(id) {
-    console.log('change')
     const current = this.todo.find(item => item.id === id)
     if (current) {
       current.isChecked = !current?.isChecked
